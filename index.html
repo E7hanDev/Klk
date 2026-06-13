@@ -1,61 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <title>MINI FORZA</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Mono&family=Inter:wght@300;600&display=swap');
-        
-        body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; display: flex; justify-content: center; padding: 40px; }
-        .app-container { width: 100%; max-width: 600px; }
-        
-        .card { background: rgba(255,255,255,0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 30px; margin-bottom: 20px; }
-        
-        input, textarea { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 15px; border-radius: 15px; margin-top: 10px; font-family: 'Space Mono'; box-sizing: border-box; }
-        
-        .btn { width: 100%; padding: 15px; background: #fff; color: #000; border: none; border-radius: 15px; font-weight: 800; cursor: pointer; margin-top: 15px; text-transform: uppercase; }
-        
-        .item { padding: 15px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; font-family: 'Space Mono'; font-size: 14px; }
+        body { margin: 0; overflow: hidden; background: #111; font-family: 'Inter', sans-serif; }
+        #ui { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; background: #000; z-index: 10; transition: opacity 1s; }
+        .btn { padding: 20px 60px; border: 1px solid #fff; color: #fff; cursor: pointer; background: transparent; font-size: 20px; letter-spacing: 5px; text-transform: uppercase; }
+        #speedo { position: absolute; bottom: 30px; left: 30px; color: #00f2fe; font-family: 'Space Mono', monospace; font-size: 28px; pointer-events: none; }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <!-- Input Section -->
-        <div class="card">
-            <h2 style="font-family: 'Space Mono';">// INFINITY_NOTES</h2>
-            <input id="noteInput" placeholder="WHAT IS ON YOUR MIND?">
-            <button class="btn" onclick="addNote()">SAVE TO ARCHIVE</button>
-        </div>
+    <div id="ui"><button class="btn" onclick="startGame()">PLAY MINI FORZA</button></div>
+    <div id="speedo">0 KM/H</div>
 
-        <!-- List Section -->
-        <div class="card" id="noteList"></div>
-    </div>
+    <script type="module">
+        import * as THREE from 'https://unpkg.com/three@0.158.0/build/three.module.js';
+        import * as CANNON from 'https://unpkg.com/cannon-es@0.20.0/dist/cannon-es.js';
 
-    <script>
-        // Load notes from local storage on start
-        function loadNotes() {
-            const list = document.getElementById('noteList');
-            const notes = JSON.parse(localStorage.getItem('infinityNotes')) || [];
-            list.innerHTML = notes.map(n => `<div class="item"><span>${n}</span> <span style="color:#666" onclick="deleteNote('${n}')">X</span></div>`).join('');
+        // 1. Scene Setup
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xf4f1ea); // Cream/Premium background
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        document.body.appendChild(renderer.domElement);
+
+        const world = new CANNON.World({ gravity: new CANNON.Vec3(0, -9.82, 0) });
+        
+        // 2. The Track
+        const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshStandardMaterial({ color: 0xcccccc }));
+        ground.rotation.x = -Math.PI / 2;
+        scene.add(ground);
+
+        // 3. The Car (Box Chassis)
+        const chassisBody = new CANNON.Body({ mass: 150, shape: new CANNON.Box(new CANNON.Vec3(1, 0.3, 1.5)) });
+        const carMesh = new THREE.Mesh(new THREE.BoxGeometry(2, 0.6, 3), new THREE.MeshStandardMaterial({ color: 0x1a1a1a }));
+        scene.add(carMesh);
+        world.addBody(chassisBody);
+
+        // 4. Lights
+        scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+        const sun = new THREE.DirectionalLight(0xffffff, 1);
+        sun.position.set(10, 20, 10);
+        scene.add(sun);
+
+        // 5. Controls
+        const keys = { w: false, a: false, s: false, d: false };
+        window.onkeydown = (e) => keys[e.key.toLowerCase()] = true;
+        window.onkeyup = (e) => keys[e.key.toLowerCase()] = false;
+
+        window.startGame = () => {
+            document.getElementById('ui').style.opacity = '0';
+            setTimeout(() => document.getElementById('ui').style.display = 'none', 1000);
+        };
+
+        // 6. Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            world.fixedStep();
+
+            // Drive Physics
+            const force = 500;
+            if(keys.w) chassisBody.applyLocalForce(new CANNON.Vec3(0, 0, -force), new CANNON.Vec3(0,0,0));
+            if(keys.s) chassisBody.applyLocalForce(new CANNON.Vec3(0, 0, force), new CANNON.Vec3(0,0,0));
+            if(keys.a) chassisBody.angularVelocity.y = 2;
+            if(keys.d) chassisBody.angularVelocity.y = -2;
+
+            // Sync visual
+            carMesh.position.copy(chassisBody.position);
+            carMesh.quaternion.copy(chassisBody.quaternion);
+
+            // Smooth Follow Camera
+            const idealOffset = new THREE.Vector3(0, 5, 12);
+            idealOffset.applyQuaternion(carMesh.quaternion);
+            idealOffset.add(carMesh.position);
+            camera.position.lerp(idealOffset, 0.08);
+            camera.lookAt(carMesh.position);
+
+            renderer.render(scene, camera);
+            document.getElementById('speedo').innerText = `${Math.floor(chassisBody.velocity.length() * 3.6)} KM/H`;
         }
-
-        function addNote() {
-            const input = document.getElementById('noteInput');
-            if(!input.value) return;
-            const notes = JSON.parse(localStorage.getItem('infinityNotes')) || [];
-            notes.push(input.value);
-            localStorage.setItem('infinityNotes', JSON.stringify(notes));
-            input.value = '';
-            loadNotes();
-        }
-
-        function deleteNote(note) {
-            let notes = JSON.parse(localStorage.getItem('infinityNotes'));
-            notes = notes.filter(n => n !== note);
-            localStorage.setItem('infinityNotes', JSON.stringify(notes));
-            loadNotes();
-        }
-
-        loadNotes();
+        animate();
     </script>
 </body>
 </html>
