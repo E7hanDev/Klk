@@ -2,69 +2,60 @@
 <html lang="en">
 <head>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;800&family=Inter:wght@300&display=swap');
-
-        body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; margin: 0; overflow: hidden; }
-
-        /* Background Animated Stars */
-        .stars { position: fixed; inset: 0; z-index: -1; background: radial-gradient(white, transparent 1px); background-size: 50px 50px; opacity: 0.1; }
-
-        .container { 
-            height: 100vh; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; text-align: center;
-        }
-
-        h1 { font-family: 'Syne', sans-serif; font-size: 5rem; margin-bottom: 10px; }
-
-        /* The Countdown */
-        #countdown { 
-            display: flex; gap: 30px; font-family: 'Syne', sans-serif; 
-            font-size: 3rem; margin: 40px 0; color: #00f2fe; 
-        }
-
-        .gift-btn { 
-            padding: 20px 50px; border: 1px solid white; background: transparent; 
-            color: white; cursor: pointer; text-transform: uppercase; 
-            letter-spacing: 4px; transition: 0.4s;
-        }
-        .gift-btn:hover { background: white; color: #000; }
-
-        .note { margin-top: 40px; opacity: 0.5; font-size: 12px; letter-spacing: 2px; }
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono&family=Inter:wght@300;600&display=swap');
+        
+        body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; display: flex; justify-content: center; padding: 40px; }
+        .app-container { width: 100%; max-width: 600px; }
+        
+        .card { background: rgba(255,255,255,0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 30px; margin-bottom: 20px; }
+        
+        input, textarea { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 15px; border-radius: 15px; margin-top: 10px; font-family: 'Space Mono'; box-sizing: border-box; }
+        
+        .btn { width: 100%; padding: 15px; background: #fff; color: #000; border: none; border-radius: 15px; font-weight: 800; cursor: pointer; margin-top: 15px; text-transform: uppercase; }
+        
+        .item { padding: 15px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; font-family: 'Space Mono'; font-size: 14px; }
     </style>
 </head>
 <body>
 
-    <div class="stars"></div>
-
-    <div class="container">
-        <h1 id="title">BIRTHDAY COUNTDOWN</h1>
-        
-        <div id="countdown">
-            <div id="days">00</div>:
-            <div id="hours">00</div>:
-            <div id="mins">00</div>
+    <div class="app-container">
+        <!-- Input Section -->
+        <div class="card">
+            <h2 style="font-family: 'Space Mono';">// INFINITY_NOTES</h2>
+            <input id="noteInput" placeholder="WHAT IS ON YOUR MIND?">
+            <button class="btn" onclick="addNote()">SAVE TO ARCHIVE</button>
         </div>
 
-        <button class="gift-btn" onclick="openGift()">SEND GIFT</button>
-        <p class="note">THE CELEBRATION IS NEAR // 2026</p>
+        <!-- List Section -->
+        <div class="card" id="noteList"></div>
     </div>
 
     <script>
-        // Set the target date (e.g., your birthday)
-        const target = new Date("July 15, 2026 00:00:00").getTime();
-
-        setInterval(() => {
-            const now = new Date().getTime();
-            const diff = target - now;
-
-            document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        }, 1000);
-
-        function openGift() {
-            alert("Digital invitation sent! Get ready for the 2026 archive.");
+        // Load notes from local storage on start
+        function loadNotes() {
+            const list = document.getElementById('noteList');
+            const notes = JSON.parse(localStorage.getItem('infinityNotes')) || [];
+            list.innerHTML = notes.map(n => `<div class="item"><span>${n}</span> <span style="color:#666" onclick="deleteNote('${n}')">X</span></div>`).join('');
         }
+
+        function addNote() {
+            const input = document.getElementById('noteInput');
+            if(!input.value) return;
+            const notes = JSON.parse(localStorage.getItem('infinityNotes')) || [];
+            notes.push(input.value);
+            localStorage.setItem('infinityNotes', JSON.stringify(notes));
+            input.value = '';
+            loadNotes();
+        }
+
+        function deleteNote(note) {
+            let notes = JSON.parse(localStorage.getItem('infinityNotes'));
+            notes = notes.filter(n => n !== note);
+            localStorage.setItem('infinityNotes', JSON.stringify(notes));
+            loadNotes();
+        }
+
+        loadNotes();
     </script>
 </body>
 </html>
