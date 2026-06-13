@@ -2,58 +2,78 @@
 <html lang="en">
 <head>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;800&family=Inter:wght@300&display=swap');
 
-        /* Professional Cream/Sand Palette */
-        :root { --bg: #f4f1ea; --accent: #8b7355; --text: #2d2d2d; }
+        :root { --bg: #0a0a0a; --speckle: #1a1a1a; }
+        body { 
+            background-color: var(--bg);
+            background-image: radial-gradient(var(--speckle) 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: #fff; font-family: 'Inter', sans-serif;
+        }
+
+        /* Full Screen Hero with Vignette */
+        .hero { 
+            height: 100vh; width: 100vw; position: relative;
+            background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,1) 100%);
+        }
+        .hero-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
         
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .logo-overlay { 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            text-align: center; z-index: 10;
+        }
+        .logo-overlay h1 { font-family: 'Syne', sans-serif; font-size: 6rem; letter-spacing: -2px; }
 
-        /* Smooth Vertical Snap Scrolling */
-        .snap-container { height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; }
-        .snap-section { height: 100vh; scroll-snap-align: start; display: flex; align-items: center; justify-content: center; position: relative; }
-
-        /* The Hoodie-to-Text Fade Effect */
-        .hero-img { width: 400px; transition: opacity 1.5s ease-out; }
-        .hero-text { font-family: 'Playfair Display', serif; font-size: 3rem; position: absolute; opacity: 0; transition: opacity 1.5s ease-out; }
-
-        /* Enlargement on Hover */
-        .product-card { width: 300px; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; }
-        .product-card:hover { transform: scale(1.15); }
-
-        .btn { padding: 15px 40px; border: 1px solid var(--accent); color: var(--accent); text-transform: uppercase; margin-top: 20px; cursor: pointer; }
+        /* Catalogue */
+        .catalogue { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 40px; padding: 80px; }
+        .card { height: 500px; background: #000; overflow: hidden; position: relative; transition: 0.6s; }
+        .card:hover { transform: translateY(-10px); }
+        .card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8); }
+        
+        .details { padding: 20px 0; }
+        .btn { 
+            margin-top: 15px; padding: 12px 25px; border: 1px solid #fff; 
+            background: transparent; color: white; cursor: pointer;
+            text-transform: uppercase; font-size: 11px; letter-spacing: 2px;
+        }
     </style>
 </head>
-<body class="snap-container">
+<body>
 
-    <!-- Hero Section -->
-    <section class="snap-section" onscroll="handleFade()">
-        <img id="fadeImg" class="hero-img" src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800">
-        <h1 id="fadeText" class="hero-text">
-            Dress with style, even when the craft comes at a premium; true elegance is an investment that transcends the standard.
-        </h1>
-    </section>
-
-    <!-- Product Collection -->
-    <section class="snap-section" style="flex-direction: column; gap: 50px;">
-        <div style="display: flex; gap: 40px;">
-            <img class="product-card" src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500">
-            <img class="product-card" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500">
+    <!-- Full Screen Cover with Nonchalant Vignette -->
+    <section class="hero">
+        <img class="hero-img" src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=1600">
+        <div class="logo-overlay">
+            <h1 style="font-size: 1rem; letter-spacing: 10px; opacity: 0.6;">EST. 2026</h1>
+            <h1>SECRET FINDS</h1>
         </div>
-        <button class="btn">Message Us to Finalize Order</button>
     </section>
 
-    <script>
-        // Scroll Logic for Fade Effect
-        window.addEventListener('scroll', () => {
-            const img = document.getElementById('fadeImg');
-            const text = document.getElementById('fadeText');
-            const scrollY = window.scrollY;
-            
-            img.style.opacity = Math.max(0, 1 - scrollY / 300);
-            text.style.opacity = Math.min(1, (scrollY - 100) / 300);
-        });
-    </script>
+    <!-- Catalogue -->
+    <div class="catalogue">
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500">
+            <div class="details">
+                <p>OVERSIZED ESSENTIAL</p>
+                <button class="btn">View Selection</button>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500">
+            <div class="details">
+                <p>ARCHIVE HOODIE</p>
+                <button class="btn">View Selection</button>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1502716119720-b23a9375fe1d?w=500">
+            <div class="details">
+                <p>TECH-WEAR SHELL</p>
+                <button class="btn">View Selection</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
