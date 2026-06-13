@@ -2,71 +2,70 @@
 <html lang="en">
 <head>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap');
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { 
-            background: radial-gradient(circle at top right, #1a1a1a, #000);
-            color: white;
-            min-height: 100vh;
-            padding: 40px;
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;800&family=Inter:wght@300;600&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+        /* Full Screen Immersive Background */
+        .bg-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(120deg, #0f0f0f 0%, #1a1a1a 100%);
+            z-index: -1;
         }
 
-        /* The Logo */
-        .header { text-align: center; margin-bottom: 60px; }
-        .logo { font-size: 3rem; font-weight: 800; letter-spacing: -2px; color: #fff; }
-        
-        /* Glassmorphism Product Card */
-        .container { display: flex; flex-direction: column; align-items: center; gap: 40px; }
-        .card { 
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            padding: 20px;
-            width: 100%; max-width: 450px;
-            transition: transform 0.3s ease;
-        }
-        .card:hover { transform: scale(1.02); }
-        .card img { width: 100%; border-radius: 20px; height: 300px; object-fit: cover; }
-        
-        /* Royal Buttons */
-        .btn { 
-            width: 100%; padding: 18px; border-radius: 15px; border: none;
-            background: linear-gradient(135deg, #d4af37, #aa8c2c); /* Gold gradient */
-            color: black; font-weight: 600; cursor: pointer; margin-top: 15px;
-            text-transform: uppercase; letter-spacing: 1px;
-        }
+        /* Hero Section */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero h1 { font-family: 'Syne', sans-serif; font-size: 8vw; text-transform: uppercase; margin-bottom: 20px; letter-spacing: -2px; }
 
-        .footer { text-align: center; margin-top: 80px; color: #666; font-size: 0.8rem; }
+        /* Product Grid */
+        .shop-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; padding: 80px; }
+        .product-card { position: relative; height: 600px; border-radius: 10px; overflow: hidden; background: #111; }
+        .product-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1); filter: grayscale(50%); }
+        .product-card:hover img { transform: scale(1.05); filter: grayscale(0%); }
+
+        /* Premium Animation Button */
+        .btn-wrapper { position: absolute; bottom: 40px; left: 40px; }
+        .btn-premium { 
+            padding: 20px 40px; background: transparent; border: 1px solid rgba(255,255,255,0.3);
+            color: #fff; cursor: pointer; transition: 0.5s; text-transform: uppercase; letter-spacing: 2px;
+            overflow: hidden; position: relative;
+        }
+        .btn-premium:hover { border-color: #fff; background: #fff; color: #000; transform: scale(1.05); }
+
+        /* Privacy Policy Section */
+        .footer { padding: 80px; text-align: center; border-top: 1px solid #222; margin-top: 40px; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <div class="logo">T's SHOP</div>
-    <p>PREMIUM APPAREL</p>
-</div>
+<div class="bg-overlay"></div>
 
-<div class="container">
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&q=80&w=800" alt="Hoodie">
-        <h2 style="margin: 20px 0 10px;">SIGNATURE HOODIE</h2>
-        <p style="color: #aaa;">$95.00</p>
-        <button class="btn" onclick="window.location.href='mailto:your-email@example.com?subject=Order: Signature Hoodie'">Purchase</button>
+<section class="hero">
+    <p style="letter-spacing: 5px; opacity: 0.6;">COLLECTION // 2026</p>
+    <h1>T'S SHOP</h1>
+</section>
+
+<div class="shop-container">
+    <!-- Item 1 -->
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200">
+        <div class="btn-wrapper">
+            <button class="btn-premium" onclick="alert('DM to order')">Signature Hoodie // $95</button>
+        </div>
     </div>
-
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1554568218-0f1715e72254?auto=format&fit=crop&q=80&w=800" alt="Tee">
-        <h2 style="margin: 20px 0 10px;">CLASSIC VINTAGE TEE</h2>
-        <p style="color: #aaa;">$45.00</p>
-        <button class="btn" onclick="window.location.href='mailto:your-email@example.com?subject=Order: Vintage Tee'">Purchase</button>
+    <!-- Item 2 -->
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1200">
+        <div class="btn-wrapper">
+            <button class="btn-premium" onclick="alert('DM to order')">Essential Tee // $45</button>
+        </div>
     </div>
 </div>
 
 <div class="footer">
-    <p>Privacy Policy | Terms of Service</p>
-    <p style="margin-top: 10px;">MESSAGE US TO FINALIZE ORDERS</p>
+    <p>PRIVACY POLICY | TERMS OF SERVICE | SHIPPING</p>
+    <p style="margin-top: 20px; font-size: 10px; color: #444;">T'S SHOP © 2026 // DM TO SECURE PIECES</p>
 </div>
 
 </body>
