@@ -1,75 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>ESTORE // Minimal Apparel</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #ffffff; font-family: 'Helvetica Neue', Arial, sans-serif; color: #000; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap');
         
-        /* Navbar */
-        nav { padding: 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
-        .logo { font-weight: 800; letter-spacing: -1px; font-size: 24px; }
-        
-        /* Hero Section */
-        .hero { padding: 100px 30px; text-align: center; }
-        
-        /* Product Grid */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; padding: 30px; }
-        .product-card { border: 1px solid #f0f0f0; padding: 10px; transition: 0.3s; }
-        .product-card:hover { border-color: #000; }
-        
-        .img-placeholder { width: 100%; height: 350px; background: #f4f4f4; display: flex; align-items: center; justify-content: center; color: #999; margin-bottom: 15px; }
-        
-        button { width: 100%; padding: 15px; background: #000; color: #fff; border: none; cursor: pointer; font-weight: 600; margin-top: 10px; }
-        button:hover { background: #333; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { 
+            background: radial-gradient(circle at top right, #1a1a1a, #000);
+            color: white;
+            min-height: 100vh;
+            padding: 40px;
+        }
 
-        /* Footer */
-        footer { padding: 50px 30px; background: #f9f9f9; margin-top: 50px; font-size: 12px; color: #666; }
-        .links { margin-bottom: 20px; }
+        /* The Logo */
+        .header { text-align: center; margin-bottom: 60px; }
+        .logo { font-size: 3rem; font-weight: 800; letter-spacing: -2px; color: #fff; }
+        
+        /* Glassmorphism Product Card */
+        .container { display: flex; flex-direction: column; align-items: center; gap: 40px; }
+        .card { 
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 20px;
+            width: 100%; max-width: 450px;
+            transition: transform 0.3s ease;
+        }
+        .card:hover { transform: scale(1.02); }
+        .card img { width: 100%; border-radius: 20px; height: 300px; object-fit: cover; }
+        
+        /* Royal Buttons */
+        .btn { 
+            width: 100%; padding: 18px; border-radius: 15px; border: none;
+            background: linear-gradient(135deg, #d4af37, #aa8c2c); /* Gold gradient */
+            color: black; font-weight: 600; cursor: pointer; margin-top: 15px;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .footer { text-align: center; margin-top: 80px; color: #666; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-<nav>
-    <div class="logo">COLLECTION_01</div>
-    <div>CART (0)</div>
-</nav>
+<div class="header">
+    <div class="logo">T's SHOP</div>
+    <p>PREMIUM APPAREL</p>
+</div>
 
-<section class="hero">
-    <h1>SEASONAL ESSENTIALS</h1>
-</section>
-
-<div class="grid">
-    <div class="product-card">
-        <div class="img-placeholder">[ PHOTO: OVERSIZED HOODIE ]</div>
-        <h3>Heavyweight Hoodie</h3>
-        <p>$85.00</p>
-        <button>PURCHASE</button>
+<div class="container">
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&q=80&w=800" alt="Hoodie">
+        <h2 style="margin: 20px 0 10px;">SIGNATURE HOODIE</h2>
+        <p style="color: #aaa;">$95.00</p>
+        <button class="btn" onclick="window.location.href='mailto:your-email@example.com?subject=Order: Signature Hoodie'">Purchase</button>
     </div>
 
-    <div class="product-card">
-        <div class="img-placeholder">[ PHOTO: VINTAGE TEE ]</div>
-        <h3>Graphic T-Shirt</h3>
-        <p>$45.00</p>
-        <button>PURCHASE</button>
-    </div>
-
-    <div class="product-card">
-        <div class="img-placeholder">[ PHOTO: DENIM ]</div>
-        <h3>Relaxed Denim</h3>
-        <p>$120.00</p>
-        <button>PURCHASE</button>
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1554568218-0f1715e72254?auto=format&fit=crop&q=80&w=800" alt="Tee">
+        <h2 style="margin: 20px 0 10px;">CLASSIC VINTAGE TEE</h2>
+        <p style="color: #aaa;">$45.00</p>
+        <button class="btn" onclick="window.location.href='mailto:your-email@example.com?subject=Order: Vintage Tee'">Purchase</button>
     </div>
 </div>
 
-<footer>
-    <div class="links">
-        <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Shipping Info</a>
-    </div>
-    <p>&copy; 2026 COLLECTION_01. ALL RIGHTS RESERVED.</p>
-    <p style="margin-top: 10px;">Questions? MESSAGE US to finalize your order.</p>
-</footer>
+<div class="footer">
+    <p>Privacy Policy | Terms of Service</p>
+    <p style="margin-top: 10px;">MESSAGE US TO FINALIZE ORDERS</p>
+</div>
 
 </body>
 </html>
