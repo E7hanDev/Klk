@@ -10,69 +10,82 @@
             background-image: radial-gradient(var(--speckle) 1px, transparent 1px);
             background-size: 30px 30px;
             color: #fff; font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
 
-        /* Full Screen Hero with Vignette */
+        /* Hero with Vignette */
         .hero { 
             height: 100vh; width: 100vw; position: relative;
-            background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,1) 100%);
+            background: radial-gradient(circle, rgba(0,0,0,0) 20%, rgba(0,0,0,1) 100%);
         }
-        .hero-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-        
+        .hero-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
         .logo-overlay { 
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            text-align: center; z-index: 10;
+            text-align: center; animation: fadeIn 2s ease;
         }
-        .logo-overlay h1 { font-family: 'Syne', sans-serif; font-size: 6rem; letter-spacing: -2px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Catalogue */
-        .catalogue { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 40px; padding: 80px; }
-        .card { height: 500px; background: #000; overflow: hidden; position: relative; transition: 0.6s; }
-        .card:hover { transform: translateY(-10px); }
-        .card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8); }
+        /* Catalogue with Float Animations */
+        .catalogue { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 60px; padding: 100px; }
         
-        .details { padding: 20px 0; }
-        .btn { 
-            margin-top: 15px; padding: 12px 25px; border: 1px solid #fff; 
-            background: transparent; color: white; cursor: pointer;
-            text-transform: uppercase; font-size: 11px; letter-spacing: 2px;
+        .card { 
+            height: 550px; background: rgba(255,255,255,0.03);
+            border-radius: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
+            transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: float 6s ease-in-out infinite;
         }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+        .card:hover { transform: translateY(-40px) scale(1.05); box-shadow: 0 40px 80px rgba(0,0,0,0.9); }
+        
+        .card img { width: 100%; height: 80%; object-fit: cover; border-radius: 30px; }
+        .details { padding: 25px; text-align: center; }
+        .btn { 
+            padding: 10px 25px; border: 1px solid rgba(255,255,255,0.2); 
+            background: transparent; color: white; cursor: pointer;
+            text-transform: uppercase; font-size: 11px; letter-spacing: 2px; border-radius: 20px;
+            transition: 0.3s;
+        }
+        .btn:hover { background: #fff; color: #000; }
     </style>
 </head>
 <body>
 
-    <!-- Full Screen Cover with Nonchalant Vignette -->
     <section class="hero">
         <img class="hero-img" src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=1600">
         <div class="logo-overlay">
-            <h1 style="font-size: 1rem; letter-spacing: 10px; opacity: 0.6;">EST. 2026</h1>
-            <h1>SECRET FINDS</h1>
+            <h1 style="font-size: 1rem; letter-spacing: 12px; opacity: 0.6;">EST. 2026</h1>
+            <h1 style="font-family: 'Syne', sans-serif; font-size: 5rem;">SECRET FINDS</h1>
         </div>
     </section>
 
-    <!-- Catalogue -->
-    <div class="catalogue">
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500">
-            <div class="details">
-                <p>OVERSIZED ESSENTIAL</p>
-                <button class="btn">View Selection</button>
-            </div>
-        </div>
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500">
-            <div class="details">
-                <p>ARCHIVE HOODIE</p>
-                <button class="btn">View Selection</button>
-            </div>
-        </div>
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1502716119720-b23a9375fe1d?w=500">
-            <div class="details">
-                <p>TECH-WEAR SHELL</p>
-                <button class="btn">View Selection</button>
-            </div>
-        </div>
+    <div class="catalogue" id="shop">
+        <!-- Generating 10 Items -->
+        <script>
+            const images = [
+                "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+                "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500",
+                "https://images.unsplash.com/photo-1502716119720-b23a9375fe1d?w=500",
+                "https://images.unsplash.com/photo-1512436991641-6745612f2679?w=500",
+                "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500",
+                "https://images.unsplash.com/photo-1445205170430-ef557780076a?w=500",
+                "https://images.unsplash.com/photo-1529139574466-a303027c1d8d?w=500",
+                "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=500",
+                "https://images.unsplash.com/photo-1516826957135-700dedea698c?w=500",
+                "https://images.unsplash.com/photo-1524532797701-83161099b6d3?w=500"
+            ];
+            
+            images.forEach((src, index) => {
+                document.write(`
+                    <div class="card">
+                        <img src="${src}">
+                        <div class="details">
+                            <p>COLLECTION PIECE ${index + 1}</p>
+                            <button class="btn">View Selection</button>
+                        </div>
+                    </div>
+                `);
+            });
+        </script>
     </div>
 
 </body>
