@@ -2,69 +2,69 @@
 <html lang="en">
 <head>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;800&family=Inter:wght@300&display=swap');
 
-        body { 
-            margin: 0; background: #050505; color: #fff; 
-            font-family: 'Inter', sans-serif;
-            display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh;
-        }
+        body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; margin: 0; overflow: hidden; }
 
-        /* Ambient Glow Background */
-        .glow {
-            position: fixed; width: 300px; height: 300px; 
-            background: rgba(0, 242, 254, 0.15); filter: blur(100px); border-radius: 50%;
-        }
+        /* Background Animated Stars */
+        .stars { position: fixed; inset: 0; z-index: -1; background: radial-gradient(white, transparent 1px); background-size: 50px 50px; opacity: 0.1; }
 
         .container { 
-            width: 90%; max-width: 400px; text-align: center; z-index: 1;
+            height: 100vh; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; text-align: center;
         }
 
-        .profile-pic { 
-            width: 120px; height: 120px; border-radius: 50%; 
-            background: #222; border: 2px solid rgba(255,255,255,0.1);
-            margin-bottom: 20px; object-fit: cover;
+        h1 { font-family: 'Syne', sans-serif; font-size: 5rem; margin-bottom: 10px; }
+
+        /* The Countdown */
+        #countdown { 
+            display: flex; gap: 30px; font-family: 'Syne', sans-serif; 
+            font-size: 3rem; margin: 40px 0; color: #00f2fe; 
         }
 
-        h2 { font-weight: 800; letter-spacing: -1px; margin-bottom: 5px; }
-        p { color: #888; font-size: 14px; margin-bottom: 30px; }
+        .gift-btn { 
+            padding: 20px 50px; border: 1px solid white; background: transparent; 
+            color: white; cursor: pointer; text-transform: uppercase; 
+            letter-spacing: 4px; transition: 0.4s;
+        }
+        .gift-btn:hover { background: white; color: #000; }
 
-        .divider { 
-            font-size: 10px; text-transform: uppercase; letter-spacing: 4px;
-            color: #444; margin: 40px 0 20px 0;
-        }
-
-        /* Aesthetic Buttons */
-        .btn-link {
-            display: block; width: 100%; padding: 18px; margin-bottom: 15px;
-            background: rgba(255,255,255,0.03); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;
-            color: #fff; text-decoration: none; font-weight: 600; font-size: 14px;
-            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .btn-link:hover { 
-            background: #fff; color: #000; transform: translateY(-5px);
-        }
+        .note { margin-top: 40px; opacity: 0.5; font-size: 12px; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
-    <div class="glow"></div>
+    <div class="stars"></div>
 
     <div class="container">
-        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200" class="profile-pic">
-        <h2>YOUR NAME</h2>
-        <p>Digital Creator // Architect of the Future</p>
-
-        <a href="#" class="btn-link">WATCH LATEST VIDEO</a>
+        <h1 id="title">BIRTHDAY COUNTDOWN</h1>
         
-        <div class="divider">Connect with us elsewhere</div>
+        <div id="countdown">
+            <div id="days">00</div>:
+            <div id="hours">00</div>:
+            <div id="mins">00</div>
+        </div>
 
-        <a href="#" class="btn-link">INSTAGRAM</a>
-        <a href="#" class="btn-link">TIKTOK</a>
-        <a href="#" class="btn-link">YOUTUBE</a>
+        <button class="gift-btn" onclick="openGift()">SEND GIFT</button>
+        <p class="note">THE CELEBRATION IS NEAR // 2026</p>
     </div>
 
+    <script>
+        // Set the target date (e.g., your birthday)
+        const target = new Date("July 15, 2026 00:00:00").getTime();
+
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = target - now;
+
+            document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        }, 1000);
+
+        function openGift() {
+            alert("Digital invitation sent! Get ready for the 2026 archive.");
+        }
+    </script>
 </body>
 </html>
