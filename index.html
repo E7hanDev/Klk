@@ -1,72 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SECRET FINDS // 2026 ARCHIVE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;800&family=Inter:wght@300;600&display=swap');
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-
-        /* Full Screen Immersive Background */
-        .bg-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(120deg, #0f0f0f 0%, #1a1a1a 100%);
-            z-index: -1;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;800&family=Space+Mono&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; overflow-x: hidden; }
+        
+        /* Mesh Background Animation */
+        .mesh-bg {
+            position: fixed; inset: 0; z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #00f2fe15, #000 70%);
+            animation: pulse 10s infinite alternate;
         }
+        @keyframes pulse { from { opacity: 0.5; } to { opacity: 1; } }
 
-        /* Hero Section */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .hero h1 { font-family: 'Syne', sans-serif; font-size: 8vw; text-transform: uppercase; margin-bottom: 20px; letter-spacing: -2px; }
-
-        /* Product Grid */
-        .shop-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; padding: 80px; }
-        .product-card { position: relative; height: 600px; border-radius: 10px; overflow: hidden; background: #111; }
-        .product-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1); filter: grayscale(50%); }
-        .product-card:hover img { transform: scale(1.05); filter: grayscale(0%); }
-
-        /* Premium Animation Button */
-        .btn-wrapper { position: absolute; bottom: 40px; left: 40px; }
-        .btn-premium { 
-            padding: 20px 40px; background: transparent; border: 1px solid rgba(255,255,255,0.3);
-            color: #fff; cursor: pointer; transition: 0.5s; text-transform: uppercase; letter-spacing: 2px;
-            overflow: hidden; position: relative;
-        }
-        .btn-premium:hover { border-color: #fff; background: #fff; color: #000; transform: scale(1.05); }
-
-        /* Privacy Policy Section */
-        .footer { padding: 80px; text-align: center; border-top: 1px solid #222; margin-top: 40px; }
+        .glass { backdrop-filter: blur(12px); background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); }
+        .hover-lift { transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .hover-lift:hover { transform: translateY(-8px); }
     </style>
 </head>
 <body>
 
-<div class="bg-overlay"></div>
+    <div class="mesh-bg"></div>
 
-<section class="hero">
-    <p style="letter-spacing: 5px; opacity: 0.6;">COLLECTION // 2026</p>
-    <h1>T'S SHOP</h1>
-</section>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass p-6 flex justify-between items-center">
+        <h1 class="text-xl font-bold tracking-tighter">SECRET FINDS</h1>
+        <button onclick="toggleCart()" class="text-cyan-400 hover:scale-110 transition-transform">CART</button>
+    </nav>
 
-<div class="shop-container">
-    <!-- Item 1 -->
-    <div class="product-card">
-        <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200">
-        <div class="btn-wrapper">
-            <button class="btn-premium" onclick="alert('DM to order')">Signature Hoodie // $95</button>
+    <!-- Hero -->
+    <section class="h-screen flex flex-col justify-center items-center text-center">
+        <h1 class="text-8xl font-black tracking-tighter opacity-0 animate-in fade-in slide-in-from-bottom-10 duration-1000 fill-mode-forwards">FUTURE // ARCHIVE</h1>
+    </section>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 z-10">
+        <div class="group relative h-[600px] overflow-hidden bg-slate-900 hover-lift">
+            <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+            <div class="absolute bottom-8 left-8">
+                <p class="font-mono text-cyan-400">$99.00</p>
+                <button onclick="toggleCart()" class="mt-4 px-8 py-3 bg-cyan-400 text-black font-bold">QUICK BUY</button>
+            </div>
+        </div>
+        <div class="group relative h-[600px] overflow-hidden bg-slate-900 hover-lift">
+            <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+            <div class="absolute bottom-8 left-8">
+                <p class="font-mono text-cyan-400">$120.00</p>
+                <button onclick="toggleCart()" class="mt-4 px-8 py-3 bg-cyan-400 text-black font-bold">QUICK BUY</button>
+            </div>
         </div>
     </div>
-    <!-- Item 2 -->
-    <div class="product-card">
-        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1200">
-        <div class="btn-wrapper">
-            <button class="btn-premium" onclick="alert('DM to order')">Essential Tee // $45</button>
+
+    <!-- Cart Drawer -->
+    <div id="cart" class="fixed top-0 right-0 h-full w-80 bg-slate-950 border-l border-white/10 z-[60] p-8 translate-x-full transition-transform duration-500">
+        <button onclick="toggleCart()" class="mb-8">CLOSE</button>
+        <h2 class="font-mono text-cyan-400">SECURE ORDER</h2>
+        <div class="mt-8 space-y-4">
+            <input placeholder="NAME" class="w-full bg-transparent border-b border-white/20 p-2 outline-none">
+            <input placeholder="ADDRESS" class="w-full bg-transparent border-b border-white/20 p-2 outline-none">
+            <button class="w-full py-4 bg-cyan-400 text-black font-bold mt-8 hover:bg-white transition-colors">CHECKOUT TOTAL: $219.00</button>
         </div>
     </div>
-</div>
 
-<div class="footer">
-    <p>PRIVACY POLICY | TERMS OF SERVICE | SHIPPING</p>
-    <p style="margin-top: 20px; font-size: 10px; color: #444;">T'S SHOP © 2026 // DM TO SECURE PIECES</p>
-</div>
-
+    <script>
+        function toggleCart() {
+            const cart = document.getElementById('cart');
+            cart.classList.toggle('translate-x-full');
+        }
+    </script>
 </body>
 </html>
